@@ -10,14 +10,12 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
 
-// retrofit - interface
 
 interface NetworkService {
     @GET("/")
     suspend fun getData(): List<Gym>
 }
 
-// tworzymy instancje retrofita
 
 class NetworkModule {
     val okHttp: OkHttpClient = OkHttpClient.Builder()
