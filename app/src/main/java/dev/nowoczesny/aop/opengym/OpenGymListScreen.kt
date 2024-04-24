@@ -9,19 +9,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import timber.log.Timber
 
 
 @Composable
-fun PlacesListScreen(viewModel: PlaceListViewModel = viewModel()) {
+fun PlacesListScreen(viewModel: PlaceListViewModel = viewModel(), navigateToDetailScreen: (String)->Unit) {
     val state = viewModel.stateFlow.collectAsState()
 
     val placeListState = state.value
 
-    PlacesListScreenContent(placeListState = placeListState)
+    PlacesListScreenContent(placeListState = placeListState){
+        navigateToDetailScreen(it.id)
+    }
 }
 
 @Composable
-private fun PlacesListScreenContent(placeListState: PlaceListState) {
+private fun PlacesListScreenContent(
+    placeListState: PlaceListState,
+    clicked: (PlaceListElementDisplayable) -> Unit
+) {
     Column() {
         if (placeListState.loading) {
             CircularProgressIndicator()
@@ -31,7 +37,10 @@ private fun PlacesListScreenContent(placeListState: PlaceListState) {
         }
         LazyColumn() {
             items(placeListState.gymList) { gymElement ->
-                PlaceListElement(element = gymElement)
+                PlaceListElement(element = gymElement, clicked = {
+                    clicked(gymElement)
+                    Timber.d("Clicked place list element: $gymElement")
+                })
             }
         }
     }
@@ -42,6 +51,7 @@ private fun PlacesListScreenContent(placeListState: PlaceListState) {
 private fun PlacesListScreenPreview() {
 
     val element = PlaceListElementDisplayable(
+        id = "123",
         name = "boisko do siatkówki plażowej",
         shortDescription = "zlokalizowane przy basenie Wandzianka w Nowej Hucie w Krakowie",
         imageUrl =
@@ -53,6 +63,7 @@ private fun PlacesListScreenPreview() {
             gymList = listOf(element, element, element),
             loading = false,
             error = "wystąpił błąd"
-        )
+        ),
+        clicked = {}
     )
 }

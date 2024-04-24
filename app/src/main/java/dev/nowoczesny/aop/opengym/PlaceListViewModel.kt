@@ -12,6 +12,10 @@ import timber.log.Timber
 
 class PlaceListViewModel : ViewModel() {
 
+    fun clicked(element: PlaceListElementDisplayable) {
+
+    }
+
     private val mutableStateFlow: MutableStateFlow<PlaceListState> = MutableStateFlow(
         PlaceListState(
             gymList = emptyList(),

@@ -7,6 +7,9 @@ import retrofit2.http.GET
 interface NetworkService {
     @GET("/")
     suspend fun getData(): List<Gym>
+
+    @GET("/{id}")
+    suspend fun getById(): Gym
 }
 
 
