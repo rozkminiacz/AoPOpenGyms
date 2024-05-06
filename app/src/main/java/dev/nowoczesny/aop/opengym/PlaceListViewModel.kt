@@ -2,6 +2,9 @@ package dev.nowoczesny.aop.opengym
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.nowoczesny.aop.opengym.data.NetworkService
+import dev.nowoczesny.aop.opengym.domain.FetchAllGymData
+import dev.nowoczesny.aop.opengym.domain.GymEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,11 +13,9 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
 
-class PlaceListViewModel : ViewModel() {
-
-    fun clicked(element: PlaceListElementDisplayable) {
-
-    }
+class PlaceListViewModel(
+    private val fetchAllGymData: FetchAllGymData,
+    ) : ViewModel() {
 
     private val mutableStateFlow: MutableStateFlow<PlaceListState> = MutableStateFlow(
         PlaceListState(
@@ -27,13 +28,11 @@ class PlaceListViewModel : ViewModel() {
     val stateFlow: StateFlow<PlaceListState>
         get() = mutableStateFlow.asStateFlow()
 
-    private val networkService: NetworkService = NetworkModule().networkService
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
-                val data: List<Gym> = networkService.getData()
+                val data: List<GymEntity> = fetchAllGymData.execute()
 
                 val gymList: List<PlaceListElementDisplayable> = data.map {
                     it.toDisplayable()

@@ -1,4 +1,4 @@
-package dev.nowoczesny.aop.opengym
+package dev.nowoczesny.aop.opengym.data
 
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -9,6 +9,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 
 class NetworkModule {
+
     private val okHttp: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

@@ -8,12 +8,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
 
 @Composable
-fun PlacesListScreen(viewModel: PlaceListViewModel = viewModel(), navigateToDetailScreen: (String)->Unit) {
+fun PlacesListScreen(viewModel: PlaceListViewModel = koinViewModel(), navigateToDetailScreen: (String)->Unit) {
     val state = viewModel.stateFlow.collectAsState()
 
     val placeListState = state.value

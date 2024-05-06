@@ -47,8 +47,6 @@ fun MainContent() {
                         }
                     }
                     composable(route = Routes.detailsSchema) {
-                        val id = it.arguments?.getString("id")
-                        Timber.d("Id in composable: $id")
                         PlaceDetailScreen()
                     }
                 }
