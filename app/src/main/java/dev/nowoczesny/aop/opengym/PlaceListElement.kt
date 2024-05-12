@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import dev.nowoczesny.aop.opengym.domain.LocationEntity
 import dev.nowoczesny.aop.opengym.ui.theme.OpenGymsTheme
 import timber.log.Timber
 
@@ -81,7 +82,8 @@ private fun PlaceListElementPreview() {
                     id = "123",
                     name = "boisko do siatkówki plażowej",
                     shortDescription = "zlokalizowane przy basenie Wandzianka w Nowej Hucie w Krakowie",
-                    imageUrl = "https://lh5.googleusercontent.com/p/AF1QipPIb4AB9J2pII0elSMIW1E1R-lU7XNlAmcHU_1q=w408-h306-k-no"
+                    imageUrl = "https://lh5.googleusercontent.com/p/AF1QipPIb4AB9J2pII0elSMIW1E1R-lU7XNlAmcHU_1q=w408-h306-k-no",
+                    location = LocationEntity(0.0,0.0)
                 )
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -90,7 +92,8 @@ private fun PlaceListElementPreview() {
                     id = "123",
                     name = "boisko do siatkówki plażowej",
                     shortDescription = "zlokalizowane przy basenie Wandzianka w Nowej Hucie w Krakowie",
-                    imageUrl = "https://lh5.googleusercontent.com/p/AF1QipPIb4AB9J2pII0elSMIW1E1R-lU7XNlAmcHU_1q=w408-h306-k-no"
+                    imageUrl = "https://lh5.googleusercontent.com/p/AF1QipPIb4AB9J2pII0elSMIW1E1R-lU7XNlAmcHU_1q=w408-h306-k-no",
+                    location = LocationEntity(0.0,0.0)
                 )
             )
         }

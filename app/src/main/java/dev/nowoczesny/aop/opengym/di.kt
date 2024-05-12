@@ -1,5 +1,7 @@
 package dev.nowoczesny.aop.opengym
 
+import dev.nowoczesny.aop.opengym.data.DatabaseModule
+import dev.nowoczesny.aop.opengym.data.GymDao
 import dev.nowoczesny.aop.opengym.data.NetworkModule
 import dev.nowoczesny.aop.opengym.data.NetworkService
 import dev.nowoczesny.aop.opengym.data.RemoteGymService
@@ -15,8 +17,13 @@ val appModule = module {
 
     single<GymService> {
         RemoteGymService(
-            networkService = get()
+            networkService = get(),
+            gymDao = get()
         )
+    }
+
+    single<GymDao> {
+        DatabaseModule(applicationContext = get()).db.gymDao()
     }
 
     single {
