@@ -38,6 +38,12 @@ val appModule = module {
         )
     }
 
+    single {
+        SearchGymData(gymService = get())
+    }
+
+    single { SearchHistory() }
+
     viewModel {
         PlaceDetailViewModel(
             fetchGymById = get(),
@@ -47,7 +53,9 @@ val appModule = module {
 
     viewModel {
         PlaceListViewModel(
-            fetchAllGymData = get()
+            fetchAllGymData = get(),
+            searchHistory = get(),
+            searchGymData = get()
         )
     }
 }

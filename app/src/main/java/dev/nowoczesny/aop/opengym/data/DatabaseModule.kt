@@ -1,7 +1,6 @@
 package dev.nowoczesny.aop.opengym.data
 
 import android.app.Application
-import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Embedded
@@ -31,8 +30,8 @@ abstract class AppDatabase : RoomDatabase() {
 @Dao
 interface GymDao {
 
-    @Query("SELECT * FROM gymdbentity WHERE name LIKE :name LIMIT 1")
-    fun findByName(name: String): GymDbEntity
+    @Query("SELECT * FROM gymdbentity WHERE name LIKE '%' || :query || '%' OR address LIKE '%' || :query || '%'")
+    suspend fun searchByQuery(query: String): List<GymDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(gyms: List<GymDbEntity>)

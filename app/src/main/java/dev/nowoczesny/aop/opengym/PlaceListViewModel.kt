@@ -2,7 +2,6 @@ package dev.nowoczesny.aop.opengym
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.nowoczesny.aop.opengym.data.NetworkService
 import dev.nowoczesny.aop.opengym.domain.FetchAllGymData
 import dev.nowoczesny.aop.opengym.domain.GymEntity
 import kotlinx.coroutines.Dispatchers
@@ -15,11 +14,28 @@ import timber.log.Timber
 
 class PlaceListViewModel(
     private val fetchAllGymData: FetchAllGymData,
-    ) : ViewModel() {
+    private val searchGymData: SearchGymData,
+    private val searchHistory: SearchHistory
+) : ViewModel() {
+
+
+    fun search(searchQuery: String) {
+        searchHistory.saveSearch(searchQuery)
+
+        mutableStateFlow.value =
+            mutableStateFlow.value.copy(searchHints = searchHistory.getAllSearches(), searchQuery = searchQuery)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val entityList = searchGymData.execute(searchQuery)
+
+            mutableStateFlow.value = mutableStateFlow.value.copy(gymList = entityList.map { it.toDisplayable() })
+        }
+    }
 
     private val mutableStateFlow: MutableStateFlow<PlaceListState> = MutableStateFlow(
         PlaceListState(
             gymList = emptyList(),
+            searchHints = searchHistory.getAllSearches(),
             loading = true,
             error = null
         )

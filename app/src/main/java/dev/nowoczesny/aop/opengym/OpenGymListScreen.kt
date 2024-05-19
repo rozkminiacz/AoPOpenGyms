@@ -2,14 +2,20 @@
 
 package dev.nowoczesny.aop.opengym
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -20,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapEffect
@@ -44,6 +51,43 @@ fun PlacesListScreen(
     Box {
         PlacesMapScreenContent(placeListState = placeListState) {
             navigateToDetailScreen(it.id)
+        }
+        PlacesSearchBar(
+            searchQuery = placeListState.searchQuery,
+            hints = placeListState.searchHints
+        ) {
+            viewModel.search(it)
+        }
+    }
+}
+
+@Composable
+fun PlacesSearchBar(searchQuery: String, hints: List<String>, search: (String) -> Unit) {
+
+    var searchText: String by remember {
+        mutableStateOf(searchQuery)
+    }
+    var active: Boolean by remember {
+        mutableStateOf(false)
+    }
+
+    SearchBar(
+        query = searchText,
+        onQueryChange = { searchText = it },
+        onSearch = {
+            search(it)
+            active = false
+        },
+        active = active,
+        onActiveChange = { active = it },
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        hints.forEach {
+            ListItem(headlineContent = { Text(it) }, modifier = Modifier.clickable {
+                search(it)
+                active = false
+            })
         }
     }
 }

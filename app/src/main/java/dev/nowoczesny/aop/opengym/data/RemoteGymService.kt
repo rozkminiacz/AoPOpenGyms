@@ -24,6 +24,10 @@ class RemoteGymService(
 //        return networkService.getById(id).toEntity()
         return gymDao.findById(id).toEntity()
     }
+
+    override suspend fun search(searchQuery: String): List<GymEntity> {
+        return gymDao.searchByQuery(searchQuery).map { it.toEntity() }
+    }
 }
 
 private fun GymDbEntity.toEntity(): GymEntity {
