@@ -3,7 +3,6 @@ package dev.nowoczesny.aop.opengym
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.nowoczesny.aop.opengym.data.NetworkService
 import dev.nowoczesny.aop.opengym.domain.FetchGymById
 import dev.nowoczesny.aop.opengym.domain.GymEntity
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,7 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 data class PlaceDetailsState(
-    val gym: PlaceListElementDisplayable?,
+    val gym: PlaceElementDisplayable?,
     val loading: Boolean,
     val error: String?
 )

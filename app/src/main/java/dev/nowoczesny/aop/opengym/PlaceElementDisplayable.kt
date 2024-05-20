@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import dev.nowoczesny.aop.opengym.domain.GymEntity
 import dev.nowoczesny.aop.opengym.domain.LocationEntity
 
-data class PlaceListElementDisplayable(
+data class PlaceElementDisplayable(
     val id: String,
     val name: String,
     val shortDescription: String,
@@ -16,8 +16,8 @@ data class PlaceListElementDisplayable(
     }
 }
 
-fun GymEntity.toDisplayable(): PlaceListElementDisplayable {
-    return PlaceListElementDisplayable(
+fun GymEntity.toDisplayable(): PlaceElementDisplayable {
+    return PlaceElementDisplayable(
         name = name,
         shortDescription = address,
         imageUrl = imageUrl,

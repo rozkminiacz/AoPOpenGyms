@@ -22,10 +22,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.nowoczesny.aop.opengym.domain.LocationEntity
 import dev.nowoczesny.aop.opengym.ui.theme.OpenGymsTheme
-import timber.log.Timber
 
 @Composable
-fun PlaceListElement(element: PlaceListElementDisplayable, clicked: () -> Unit = {}) {
+fun PlaceListElement(element: PlaceElementDisplayable, clicked: () -> Unit = {}) {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -78,7 +77,7 @@ private fun PlaceListElementPreview() {
     OpenGymsTheme {
         Column {
             PlaceListElement(
-                element = PlaceListElementDisplayable(
+                element = PlaceElementDisplayable(
                     id = "123",
                     name = "boisko do siatkówki plażowej",
                     shortDescription = "zlokalizowane przy basenie Wandzianka w Nowej Hucie w Krakowie",
@@ -88,7 +87,7 @@ private fun PlaceListElementPreview() {
             )
             Spacer(modifier = Modifier.height(20.dp))
             PlaceListElement(
-                element = PlaceListElementDisplayable(
+                element = PlaceElementDisplayable(
                     id = "123",
                     name = "boisko do siatkówki plażowej",
                     shortDescription = "zlokalizowane przy basenie Wandzianka w Nowej Hucie w Krakowie",
