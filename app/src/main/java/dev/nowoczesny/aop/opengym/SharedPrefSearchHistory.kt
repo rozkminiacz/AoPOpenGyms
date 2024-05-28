@@ -16,7 +16,7 @@ class SharedPrefSearchHistory(val context: Context) : SearchHistory {
     val asd = BuildConfig.APPLICATION_ID
 
     private val sharedPreferences =
-        context.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+        context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
 
     override fun getAllSearches(): List<String> {
         return sharedPreferences.getStringSet(HISTORIC_SEARCHES, emptySet())?.toList()
@@ -36,5 +36,6 @@ class SharedPrefSearchHistory(val context: Context) : SearchHistory {
 
     companion object {
         const val HISTORIC_SEARCHES = "HISTORIC_SEARCHES"
+        const val SHARED_PREF_NAME = "SHARED_PREF"
     }
 }
