@@ -10,7 +10,9 @@ class App: Application(){
     override fun onCreate() {
         Timber.plant(Timber.DebugTree())
         startKoin {
-            androidLogger()
+            if (BuildConfig.DEBUG){
+                androidLogger()
+            }
             androidContext(this@App)
             modules(appModule)
         }

@@ -17,6 +17,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "BASE_URL", """
+            "https://localohost:8999/"
+        """.trimIndent())
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -41,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.13"
@@ -95,6 +100,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+
+    implementation(libs.androidx.datastore.preferences)
+
 
 
 

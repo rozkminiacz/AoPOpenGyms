@@ -42,7 +42,7 @@ val appModule = module {
         SearchGymData(gymService = get())
     }
 
-    single { SearchHistory() }
+    single<SearchHistory> { SharedPrefSearchHistory(context = get()) }
 
     viewModel {
         PlaceDetailViewModel(

@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,6 +34,10 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import dev.nowoczesny.aop.opengym.domain.LocationEntity
 import org.koin.androidx.compose.koinViewModel
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.ui.unit.dp
+
 import timber.log.Timber
 
 
@@ -82,6 +87,7 @@ fun PlacesSearchBar(searchQuery: String, hints: List<String>, search: (String) -
     ) {
         hints.forEach {
             ListItem(headlineContent = { Text(it) }, modifier = Modifier.clickable {
+                searchText = it
                 search(it)
                 active = false
             })
@@ -198,4 +204,75 @@ private fun PlacesListScreenPreview() {
         ),
         clicked = {}
     )
+}
+
+@Composable
+fun CreatePlaceScreen() {
+
+    val viewModel: CreatePlaceViewModel = koinViewModel()
+
+    val state = viewModel.state.collectAsState().value
+
+    EditPlaceScreen(initialPlace = state) {
+        viewModel.save(it)
+    }
+
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun EditPlaceScreenPreview(){
+    EditPlaceScreen(initialPlace = CreatePlaceState.EMPTY) {
+
+    }
+}
+
+@Composable
+fun EditPlaceScreen(
+    initialPlace: CreatePlaceState,
+    onSave: (CreatePlaceState) -> Unit
+) {
+    var name by remember { mutableStateOf(initialPlace.name) }
+    var description by remember { mutableStateOf(initialPlace.description) }
+    var address by remember { mutableStateOf(initialPlace.address) }
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text("Edit Place", style = MaterialTheme.typography.labelMedium)
+
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Name") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = description,
+            onValueChange = { description = it },
+            label = { Text("Description") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = address,
+            onValueChange = { address = it },
+            label = { Text("Address") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Button(
+            onClick = {
+                val updatedPlace = CreatePlaceState(name, description, address)
+                onSave(updatedPlace)
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Save")
+        }
+    }
 }

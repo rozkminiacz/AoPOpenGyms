@@ -28,6 +28,10 @@ class RemoteGymService(
     override suspend fun search(searchQuery: String): List<GymEntity> {
         return gymDao.searchByQuery(searchQuery).map { it.toEntity() }
     }
+
+    override suspend fun save(entity: GymEntity) {
+        return gymDao.insertAll(listOf(entity.toDbEntity()))
+    }
 }
 
 private fun GymDbEntity.toEntity(): GymEntity {
